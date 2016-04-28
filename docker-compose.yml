@@ -10,7 +10,7 @@ postgresql:
     - /var/lib/postgresql
 gitlab:
   restart: always
-  image: estebanv/gitlab:latest
+  image: sameersbn/gitlab:8.7.0
   links:
     - redis:redisio
     - postgresql:postgresql
