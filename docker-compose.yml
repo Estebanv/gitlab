@@ -10,7 +10,7 @@ postgresql:
     - /var/lib/postgresql
 gitlab:
   restart: always
-  image: sameersbn/gitlab:8.7.0
+  image: estebanv/gitlab:v1
   links:
     - redis:redisio
     - postgresql:postgresql
@@ -21,10 +21,9 @@ gitlab:
     - DEBUG=false
     - TZ=America/Argentina
     - GITLAB_TIMEZONE=America/Argentina/Buenos_Aires
-
     - GITLAB_SECRETS_DB_KEY_BASE=PFKbkjnNg3nHsVNphkqHCbW3XTcLzpfJvqN9rcn9zPs4WNFxbmxbLdnzfHK9tzTb
 
-    - GITLAB_HOST=gitlab.unlu.edu.ar
+    - GITLAB_HOST=portal-p.unlu.edu.ar
     - GITLAB_PORT=10080
     - GITLAB_SSH_PORT=10022
     - GITLAB_RELATIVE_URL_ROOT=
@@ -40,13 +39,12 @@ gitlab:
     - GITLAB_BACKUP_TIME=01:00
 
     - SMTP_ENABLED=true
-    - SMTP_DOMAIN=www.unlu.edu.ar
     - SMTP_HOST=mail.unlu.edu.ar
     - SMTP_PORT=25
-    - SMTP_USER=gitlab@unlu.edu.ar
-    - SMTP_PASS=password
-    - SMTP_STARTTLS=true
-    - SMTP_AUTHENTICATION=login
+    - SMTP_METHOD=smtp
+    - SMTP_DOMAIN=portal-p.unlu.edu.ar
+    - SMTP_AUTHENTICATION=none
+    - SMTP_STARTTLS=false
 
     - IMAP_ENABLED=false
     - IMAP_HOST=imap.gmail.com
@@ -57,6 +55,7 @@ gitlab:
     - IMAP_STARTTLS=false
     - TERM=xterm
     - http_proxy=http://proxy.unlu.edu.ar:8080
+
   volumes:
     - /home/git/data
 redis:
