@@ -14,7 +14,7 @@ Para el upgrade hay que tener en cuenta las 2 fases básicas (siempre y cuando s
 
 ### Fase 1
 
-Estos pasos se realizan en la maquina que tenga la personalizacion.
+Estos pasos se realizan en la maquina que tenga la personalizacion (Con este repo clonado, obviamente).
 
 Se pullea la nueva imagen y se edita el dockerfile:
 
