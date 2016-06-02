@@ -1,3 +1,4 @@
+
 postgresql:
   restart: always
   image: sameersbn/postgresql:9.4-20
@@ -7,10 +8,11 @@ postgresql:
     - DB_NAME=gitlabhq_production
     - DB_EXTENSION=pg_trgm
   volumes:
-    - /var/lib/postgresql
+    - /var/aplicaciones/docker/gitlab/data/postgresql:/var/lib/postgresql
 gitlab:
   restart: always
   image: estebanv/gitlab:v1
+  container_name: gitlab
   links:
     - redis:redisio
     - postgresql:postgresql
@@ -55,11 +57,13 @@ gitlab:
     - IMAP_STARTTLS=false
     - TERM=xterm
     - http_proxy=http://proxy.unlu.edu.ar:8080
+    - USERMAP_UID=1004
+    - USERMAP_GID=999
 
   volumes:
-    - /home/git/data
+    - /var/aplicaciones/docker/gitlab/data/gitlab:/home/git/data
 redis:
   restart: always
   image: sameersbn/redis:latest
   volumes:
-    - /var/lib/redis
+    - /var/aplicaciones/docker/gitlab/data/redis:/var/lib/redis
