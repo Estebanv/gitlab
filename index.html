@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Gitlab : Stack de contenedores de Gitlab">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Gitlab</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/unlu-dgs/gitlab">View on GitHub</a>
+
+          <h1 id="project_title">Gitlab</h1>
+          <h2 id="project_tagline">Stack de contenedores de Gitlab</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/unlu-dgs/gitlab/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/unlu-dgs/gitlab/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="gitlab" class="anchor" href="#gitlab" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gitlab</h1>
+
+<p>Personalizacion del yml del repositorio <a href="https://github.com/sameersbn/docker-gitlab">sameersbn/docker-gitlab</a>, para instalar el gilab en al unlu.</p>
+
+<p>Obviamente se requiere el docker-compose.</p>
+
+<p>Solo hace falta ejecutar <code>docker-compose -p gitlab up -d</code>.</p>
+
+<p>La la URL esta configurada en gitlab como <code>gitlab.unlu.edu.ar</code>. Editar el archivo hosts con los valores que corresponda.</p>
+
+<h2>
+<a id="administración" class="anchor" href="#administraci%C3%B3n" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Administración</h2>
+
+<p>Para el upgrade hay que tener en cuenta las 2 fases básicas (siempre y cuando se este usando la personalización de la imgen base).</p>
+
+<h3>
+<a id="fase-1" class="anchor" href="#fase-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Fase 1</h3>
+
+<p>Estos pasos se realizan en la maquina que tenga la personalizacion (Con este repo clonado, obviamente).</p>
+
+<p>Se pullea la nueva imagen y se edita el dockerfile:</p>
+
+<pre><code>docker pull sameersbn/gitlab:X.X.X # Donde X.X.X es la ultima version de la imagen
+mcedit Dockerfile # Cambiar la imagen a la nueva version X.X.X
+</code></pre>
+
+<p>Se buildea con las opciones que sean necesarias (se incluyeron las mas importantes para usar dentro de la UNLu):</p>
+
+<pre><code>docker build --build-arg http_proxy=http://proxy.unlu.edu.ar:8080 -t estebanv/gitlab:v1 .
+docker push estebanv/gitlab:v1
+</code></pre>
+
+<p>Se commitea y pushea contra github:</p>
+
+<pre><code>git commit -a -m 'Actualizada la imagen de gitlab de X.X.X a Y.Y.Y'
+git push origin master
+</code></pre>
+
+<h3>
+<a id="fase-2" class="anchor" href="#fase-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Fase 2</h3>
+
+<p>En el server:</p>
+
+<p>Primero hacer el backup:</p>
+
+<p>Lo mejor es loguearse al contenedor de gitlab (docker exec -it gitlab bash). Los comandos son (back y restore):</p>
+
+<pre><code>sudo -HEu git bundle exec rake gitlab:backup:create RAILS_ENV=production
+sudo -HEu git bundle exec rake gitlab:backup:restore RAILS_ENV=production
+</code></pre>
+
+<p>Actualizar la imagen personalizada:</p>
+
+<pre><code>docker pull estebanv/gitlab:v1
+</code></pre>
+
+<p>Detener y eliminar los containers del stack (podria ser solo el de gitlab, pero no se podria usar docker-compose):</p>
+
+<pre><code>docker-compose -p gitlab stop
+docker-compose -p gitlab rm --all
+</code></pre>
+
+<p>Editar el yml para poner la nueva imagen si fuera necesario (la nuestra se llama igual por el momento) y levantar el contenedor/stack segun corresponda:</p>
+
+<pre><code>mcedit docker-compose.yml
+docker-compose -p gitlab up -d
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Gitlab maintained by <a href="https://github.com/unlu-dgs">unlu-dgs</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
