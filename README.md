@@ -1,12 +1,16 @@
 # Gitlab
 
-Personalizacion del yml del repositorio [sameersbn/docker-gitlab](https://github.com/sameersbn/docker-gitlab), para instalar el gilab en al unlu.
+Personalizacion del yml del repositorio [sameersbn/docker-gitlab](https://github.com/sameersbn/docker-gitlab), para instalar el gitlab en al unlu.
 
-Obviamente se requiere el docker-compose.
+Solo hace falta editar el archivo environment.env con los datos necesarios y ejecutar `docker-compose -p up`.
 
-Solo hace falta ejecutar `docker-compose -p gitlab up -d`.
+## Requerimientos
 
-La la URL esta configurada en gitlab como `gitlab.unlu.edu.ar`. Editar el archivo hosts con los valores que corresponda.
+Se usa la versión 2 del archivo compose, por lo tanto es necesario tener  Compose 1.6.0+ y Docker Engine 1.10.0+.
+
+## Variables de entorno
+
+Todas las variables de entorno necesarias para el funcionamiento del stack, se encuentran en el archivo [environment.sample.env](https://github.com/unlu-dgs/gitlab/blob/master/environment.sample.env). Antes de arrancar los contenedores hace falta copiar y renombrar a 'environment.env', habiendo editado los valores según corresponda.
 
 ## Administración
 
@@ -14,7 +18,7 @@ Para el upgrade hay que tener en cuenta las 2 fases básicas (siempre y cuando s
 
 ### Fase 1
 
-Estos pasos se realizan en la maquina que tenga la personalizacion.
+Estos pasos se realizan en la maquina que tenga la personalizacion (Con este repo clonado, obviamente).
 
 Se pullea la nueva imagen y se edita el dockerfile:
 
@@ -59,8 +63,8 @@ docker pull estebanv/gitlab:v1
 Detener y eliminar los containers del stack (podria ser solo el de gitlab, pero no se podria usar docker-compose):
 
 ```
-docker-compose -p gitlab stop
-docker-compose -p gitlab rm --all
+docker-compose stop
+docker-compose rm --all
 ```
 
 Editar el yml para poner la nueva imagen si fuera necesario (la nuestra se llama igual por el momento) y levantar el contenedor/stack segun corresponda:
