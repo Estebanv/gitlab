@@ -69,14 +69,14 @@ sudo -HEu git bundle exec rake gitlab:backup:restore RAILS_ENV=production
 Actualizar la imagen personalizada:
 
 ```
-docker pull estebanv/gitlab:v1
+docker pull unludgs/gitlab:latest
 ```
 
 Detener y eliminar los containers del stack (podria ser solo el de gitlab, pero no se podria usar docker-compose):
 
 ```
-docker-compose stop
-docker-compose rm --all
+docker-compose -p gitlab stop
+docker-compose -p gitlab rm --all
 ```
 
 Editar el yml para poner la nueva imagen si fuera necesario (la nuestra se llama igual por el momento) y levantar el contenedor/stack segun corresponda:
@@ -84,4 +84,10 @@ Editar el yml para poner la nueva imagen si fuera necesario (la nuestra se llama
 ```
 mcedit docker-compose.yml
 docker-compose -p gitlab up -d
+```
+
+Para observar mientra levanta y migra a la nueva versión
+
+```
+docker logs -f gitlab_gitlab_1
 ```
