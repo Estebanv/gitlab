@@ -18,6 +18,8 @@ Para el upgrade hay que tener en cuenta las 2 fases básicas (siempre y cuando s
 
 ### Fase 1
 
+### Construyendo la build de forma local
+
 Estos pasos se realizan en la maquina que tenga la personalizacion (Con este repo clonado, obviamente).
 
 Se pullea la nueva imagen y se edita el dockerfile:
@@ -37,6 +39,16 @@ docker push estebanv/gitlab:v1
 Se commitea y pushea contra github:
 
 ```
+git commit -a -m 'Actualizada la imagen de gitlab de X.X.X a Y.Y.Y'
+git push origin master
+```
+
+### Utilizando la build automatizada de Docker Hub
+
+Lo que se necesita hacer es cambiar el numero de version en el archivo Dockerfile, y la build se hace de forma automatica en Docker Hub.
+
+```
+mcedit Dockerfile # Cambiar la imagen a la nueva version X.X.X
 git commit -a -m 'Actualizada la imagen de gitlab de X.X.X a Y.Y.Y'
 git push origin master
 ```
