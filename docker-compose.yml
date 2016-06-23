@@ -18,7 +18,7 @@ services:
 
   gitlab:
     restart: always
-    image: estebanv/gitlab:v1
+    image: unludgs/gitlab:latest
     depends_on:
     - redis
     - postgresql
