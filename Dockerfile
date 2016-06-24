@@ -1,4 +1,4 @@
-FROM sameersbn/gitlab:8.8.5-1
+FROM sameersbn/gitlab:8.9.0
 
 ENV TERM=xterm
 
