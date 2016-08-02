@@ -1,1 +1,2 @@
 environment.env filter=git-crypt diff=git-crypt
+test.crypt filter=git-crypt diff=git-crypt
