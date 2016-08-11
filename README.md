@@ -2,7 +2,7 @@
 
 Personalizacion del yml del repositorio [sameersbn/docker-gitlab](https://github.com/sameersbn/docker-gitlab), para instalar el gitlab en al unlu.
 
-Solo hace falta editar el archivo environment.env con los datos necesarios y ejecutar `docker-compose -p up`.
+Solo  hace falta editar el archivo environment.env con los datos necesarios y ejecutar `docker-compose -p up`.
 
 ## Requerimientos
 
