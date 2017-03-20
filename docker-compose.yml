@@ -4,6 +4,7 @@ services:
   redis:
     restart: always
     image: sameersbn/redis:latest
+    container_name: ${PROJECT_NAME}
     command:
     - --loglevel warning
     volumes:
@@ -12,6 +13,7 @@ services:
   postgresql:
     restart: always
     image: sameersbn/postgresql:9.5-1
+    container_name: ${PROJECT_NAME}
     volumes:
     - /var/aplicaciones/docker/gitlab/data/postgresql:/var/lib/postgresql:Z
     env_file: environment.env
@@ -19,6 +21,7 @@ services:
   gitlab:
     restart: always
     image: unludgs/gitlab:latest
+    container_name: ${PROJECT_NAME}
     depends_on:
     - redis
     - postgresql
