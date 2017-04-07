@@ -11,7 +11,7 @@ services:
 
   postgresql:
     restart: always
-    image: sameersbn/postgresql:9.5-1
+    image: sameersbn/postgresql:latest
     volumes:
     - /var/aplicaciones/docker/gitlab/data/postgresql:/var/lib/postgresql:Z
     env_file: environment.env
