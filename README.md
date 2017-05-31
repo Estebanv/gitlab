@@ -2,7 +2,7 @@
 
 Personalizacion del yml del repositorio [sameersbn/docker-gitlab](https://github.com/sameersbn/docker-gitlab), para instalar el gitlab en al unlu.
 
-Solo  hace falta editar el archivo environment.env con los datos necesarios y ejecutar `docker-compose -p up`.
+Solo  hace falta editar el archivo environment.env con los datos necesarios y ejecutar `docker-compose -p up`. 
 
 ## Requerimientos
 
@@ -53,13 +53,15 @@ git commit -a -m 'Actualizada la imagen de gitlab de X.X.X a Y.Y.Y'
 git push origin master
 ```
 
+Esto dispara la build automatica en [Docker Hub](https://hub.docker.com/r/unludgs/gitlab/builds/).
+
 ### Fase 2
 
 En el server:
 
 Primero hacer el backup:
 
-Lo mejor es loguearse al contenedor de gitlab (docker exec -it gitlab bash). Los comandos son (back y restore):
+Lo mejor es loguearse al contenedor de gitlab (`docker exec -it gitlab_gitlab_1 bash`). Los comandos son backup y restore:
 
 ```
 sudo -HEu git bundle exec rake gitlab:backup:create RAILS_ENV=production
@@ -72,17 +74,9 @@ Actualizar la imagen personalizada:
 docker pull unludgs/gitlab:latest
 ```
 
-Detener y eliminar los containers del stack (podria ser solo el de gitlab, pero no se podria usar docker-compose):
+Levantar los contenedores. Recreara el container de Gitlab con la nueva versión de la imagen:
 
 ```
-docker-compose -p gitlab stop
-docker-compose -p gitlab rm --all
-```
-
-Editar el yml para poner la nueva imagen si fuera necesario (la nuestra se llama igual por el momento) y levantar el contenedor/stack segun corresponda:
-
-```
-mcedit docker-compose.yml
 docker-compose -p gitlab up -d
 ```
 
